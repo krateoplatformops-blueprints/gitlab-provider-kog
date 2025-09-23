@@ -1,0 +1,14 @@
+apiVersion: gitlab.ogen.krateo.io/v1alpha1
+kind: Repo
+metadata:
+  name: test-repo
+  namespace: default
+  annotations:
+    krateo.io/connector-verbose: "true"
+spec:
+  configurationRef:
+    name: my-gitlab-repo-config
+    namespace: default
+  name: test-repo
+  visibility: private
+  initialize_with_readme: true

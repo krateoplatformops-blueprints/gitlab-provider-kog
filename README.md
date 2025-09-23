@@ -1,8 +1,8 @@
-# GitLab Provider KOG Helm Chart
+# GitLab Provider KOG Blueprint
 
 ***KOG***: (*Krateo Operator Generator*)
 
-This is a [Helm Chart](https://helm.sh/docs/topics/charts/) that deploys the Krateo GitLab Provider leveraging the [Krateo OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) and using OpenAPI Specifications (OAS) of the GitLab API.
+This is a Blueprint that deploys the GitLab Provider KOG leveraging the [OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) and using an OpenAPI Specifications (OAS) of the GitLab API.
 This provider allows you to manage GitLab resources such as repositories.
 
 ## Summary
@@ -21,16 +21,20 @@ This provider allows you to manage GitLab resources such as repositories.
 
 ## Requirements
 
-[Krateo OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) should be installed in your cluster. Follow the related Helm Chart [README](https://github.com/krateoplatformops/oasgen-provider-chart) for installation instructions.
+[OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) should be installed in your cluster. Follow the related Helm Chart [README](https://github.com/krateoplatformops/oasgen-provider-chart) for installation instructions.
+Note that a standard installation of Krateo contains the OASGen Provider.
 
 ## How to install
 
-To install the chart, use the following commands:
+To install the chart, use the following command:
 
 ```sh
-helm repo add krateo https://charts.krateo.io
-helm repo update krateo
-helm install gitlab-provider krateo/gitlab-provider-kog
+helm install gitlab-provider-kog gitlab-provider-kog \
+  --repo https://marketplace.krateo.io \
+  --namespace <release-namespace> \
+  --create-namespace \
+  --version 1.0.0 \
+  --wait
 ```
 
 > [!NOTE]
