@@ -1,14 +1,17 @@
-# GitLab Provider KOG Helm Chart
+# GitLab Provider KOG Blueprint
 
 ***KOG***: (*Krateo Operator Generator*)
 
-This is a [Helm Chart](https://helm.sh/docs/topics/charts/) that deploys the Krateo GitLab Provider leveraging the [Krateo OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) and using OpenAPI Specifications (OAS) of the GitLab API.
+This is a Krateo Blueprint that deploys the GitLab Provider KOG leveraging the [OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) and using an OpenAPI Specifications (OAS) of the GitLab API.
 This provider allows you to manage GitLab resources such as repositories.
 
 ## Summary
 
 - [Requirements](#requirements)
+- [Project structure](#project-structure)
 - [How to install](#how-to-install)
+  - [Full provider installation](#full-provider-installation)
+  - [Single resource installation](#single-resource-installation)
 - [Supported resources](#supported-resources)
   - [Resource details](#resource-details)
     - [Repo](#repo)
@@ -18,19 +21,32 @@ This provider allows you to manage GitLab resources such as repositories.
   - [Configuration resources](#configuration-resources)
   - [Verbose logging](#verbose-logging)
 - [Chart structure](#chart-structure)
+- [Release process](#release-process)
 
 ## Requirements
 
-[Krateo OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) should be installed in your cluster. Follow the related Helm Chart [README](https://github.com/krateoplatformops/oasgen-provider-chart) for installation instructions.
+[OASGen Provider](https://github.com/krateoplatformops/oasgen-provider) should be installed in your cluster. Follow the related Helm Chart [README](https://github.com/krateoplatformops/oasgen-provider-chart) for installation instructions.
+Note that a standard installation of Krateo contains the OASGen Provider.
+
+## Project structure
+
+This project is composed by the following folders:
+- **gitlab-provider-kog-*-blueprint**: Helm charts that deploys single resources supported by this provider. These charts are useful if you want to deploy only one of the supported resources (currently only `Repo` is supported).
+- **gitlab-provider-kog-blueprint**: a Helm chart that can deploy all resources supported by this provider. It is useful if you want to manage multiple of the supported resources.
 
 ## How to install
 
-To install the chart, use the following commands:
+### Full provider installation
+
+To install the **gitlab-provider-kog-blueprint** Helm chart (full provider), use the following command:
 
 ```sh
-helm repo add krateo https://charts.krateo.io
-helm repo update krateo
-helm install gitlab-provider krateo/gitlab-provider-kog
+helm install gitlab-provider-kog gitlab-provider-kog \
+  --repo https://marketplace.krateo.io \
+  --namespace <release-namespace> \
+  --create-namespace \
+  --version 1.0.0 \
+  --wait
 ```
 
 > [!NOTE]
@@ -44,15 +60,28 @@ kubectl get restdefinitions.ogen.krateo.io --all-namespaces | awk 'NR==1 || /git
 You should see output similar to this:
 ```sh
 NAMESPACE       NAME                           READY   AGE
-krateo-system   gitlab-provider-repo           False   24s
+krateo-system   gitlab-provider-kog-repo       False   24s
 ```
 
-You can also wait for a specific RestDefinition (`gitlab-provider-repo` in this case) to be ready with a command like this:
+You can also wait for a specific RestDefinition (`gitlab-provider-kog-repo` in this case) to be ready with a command like this:
 ```sh
-kubectl wait restdefinitions.ogen.krateo.io gitlab-provider-repo --for condition=Ready=True --namespace krateo-system --timeout=300s
+kubectl wait restdefinitions.ogen.krateo.io gitlab-provider-kog-repo --for condition=Ready=True --namespace krateo-system --timeout=300s
 ```
 
 Note that the names of the RestDefinitions and the namespace where the RestDefinitions are installed may vary based on your configuration.
+
+### Single resource installation
+
+To manage a single resource, you can install the specific Helm chart for that resource. For example, to install the `gitlab-provider-kog-repo` resource, you can use the following command:
+
+```sh
+helm install gitlab-provider-kog-repo gitlab-provider-kog-repo \
+  --repo https://marketplace.krateo.io \
+  --namespace <release-namespace> \
+  --create-namespace \
+  --version 1.0.0 \
+  --wait
+```
 
 ## Supported resources
 
@@ -194,4 +223,6 @@ They also define the operations that can be performed on those resources. Once t
 
 - **/assets** folder: Contains the selected OpenAPI Specification files for the GitLab API.
 
-- **/samples** folder: Contains example resources for each supported resource type as seen in this README. These examples demonstrate how to create and manage GitLab resources using the Krateo GitLab Provider.
+## Release process
+
+Please refer to the [Release guide](./docs/release.md) in the `/docs` folder of the chart for detailed instructions on how to release new versions of the chart and its components.
