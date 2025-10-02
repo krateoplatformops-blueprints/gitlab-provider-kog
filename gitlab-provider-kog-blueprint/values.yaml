@@ -1,0 +1,11 @@
+# @schema
+# type: object
+# description: Configuration for the Repo Blueprint dependency.
+# @schema
+gitlab-provider-kog-repo-blueprint:
+  # @schema
+  # type: boolean
+  # description: Enable the Repo Blueprint dependency.
+  # default: true
+  # @schema
+  enabled: true

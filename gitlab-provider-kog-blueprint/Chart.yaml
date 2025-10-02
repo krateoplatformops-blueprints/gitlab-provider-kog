@@ -1,6 +1,6 @@
 apiVersion: v2
 name: gitlab-provider-kog
-description: A Helm chart for deploying GitLab Provider KOG
+description: A Helm chart for deploying GitLab Provider KOG.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -25,3 +25,11 @@ sources:
   - https://github.com/krateoplatformops-blueprints/gitlab-provider-kog
 annotations:
   krateoSupportedVersion: ">= 2.5.1"
+
+dependencies:
+  - name: gitlab-provider-kog-repo # the name of the dependency chart
+    version: GITLAB_PROVIDER_KOG_REPO_BLUEPRINT_VERSION
+    repository: https://marketplace.krateo.io
+    condition: gitlab-provider-kog-repo-blueprint.enabled
+
+  

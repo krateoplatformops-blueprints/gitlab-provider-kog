@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "gitlab-provider-kog-repo-blueprint": {
+      "additionalProperties": false,
+      "description": "Configuration for the Repo Blueprint dependency.",
+      "properties": {
+        "enabled": {
+          "default": true,
+          "description": "Enable the Repo Blueprint dependency.",
+          "title": "enabled",
+          "type": "boolean"
+        }
+      },
+      "title": "gitlab-provider-kog-repo-blueprint",
+      "type": "object"
+    }
+  },
+  "type": "object"
+}
